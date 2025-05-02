@@ -34,6 +34,7 @@ const User = () => {
   const handleChange = (e) => {
     const searchValue = e?.target?.value;
     console.log(searchValue, "sdfag");
+
     if (!searchValue) {
       setSearchFilterData(originalUserData); // Reset to full data if searchValue is empty
       return;
@@ -47,7 +48,10 @@ const User = () => {
     });
     setSearchFilterData(filteredData);
   };
-  const handleSearch = () => {
+  const handleSearch = (e) => {
+    if (e.type === "keydown" && e.key !== "Enter") {
+      return;
+    }
     setUserData(searchFilteredData);
   };
   const handleCreate = () => {
@@ -69,8 +73,14 @@ const User = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const api = edit
-      ? axios.put(`https://mern-stack-f5ek.onrender.com/User/UpdateUser/${userId}`, newUser)
-      : axios.post("https://mern-stack-f5ek.onrender.com/User/CreateUser", newUser);
+      ? axios.put(
+          `https://mern-stack-f5ek.onrender.com/User/UpdateUser/${userId}`,
+          newUser
+        )
+      : axios.post(
+          "https://mern-stack-f5ek.onrender.com/User/CreateUser",
+          newUser
+        );
     await api
       .then((res) => {
         handleClose();
@@ -131,6 +141,7 @@ const User = () => {
               placeholder="Search UserDetail"
               style={{ marginTop: "6px" }}
               onChange={handleChange}
+              onKeyDown={handleSearch}
             />
           </span>
           <span className={{ height: "4px" }}>
