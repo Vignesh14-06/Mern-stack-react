@@ -19,7 +19,7 @@ const User = () => {
   const getUserData = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:9000/User/GetAllUsers"
+        "https://mern-stack-f5ek.onrender.com/User/GetAllUsers"
       );
       setUserData(response?.data);
       setOriginalUserData(response.data);
@@ -69,8 +69,8 @@ const User = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const api = edit
-      ? axios.put(`http://localhost:9000/User/UpdateUser/${userId}`, newUser)
-      : axios.post("http://localhost:9000/User/CreateUser", newUser);
+      ? axios.put(`https://mern-stack-f5ek.onrender.com/User/UpdateUser/${userId}`, newUser)
+      : axios.post("https://mern-stack-f5ek.onrender.com/User/CreateUser", newUser);
     await api
       .then((res) => {
         handleClose();
@@ -88,14 +88,14 @@ const User = () => {
     setUserId(id);
     setEdit(true);
     const response = await axios.get(
-      `http://localhost:9000/User/GetUserById/${id}`
+      `https://mern-stack-f5ek.onrender.com/User/GetUserById/${id}`
     );
     setNewUser(response?.data);
     setModelOpen(true);
   };
   const handleDelete = async (id) => {
     await axios
-      .delete(`http://localhost:9000/User/DeleteUser/${id}`)
+      .delete(`https://mern-stack-f5ek.onrender.com/User/DeleteUser/${id}`)
       .then((res) => {
         toast.success(res?.data?.message, { position: "bottom-center" });
         getUserData();
