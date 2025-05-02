@@ -33,11 +33,11 @@ const User = () => {
 
   const handleChange = (e) => {
     const searchValue = e?.target?.value;
-    console.log(searchValue,'sdfag')
+    console.log(searchValue, "sdfag");
     if (!searchValue) {
-        setSearchFilterData(originalUserData); // Reset to full data if searchValue is empty
-        return;
-      }
+      setSearchFilterData(originalUserData); // Reset to full data if searchValue is empty
+      return;
+    }
     const filteredData = originalUserData?.filter((data) => {
       return (
         data?.name?.toLowerCase()?.includes(searchValue?.toLowerCase()) ||
@@ -55,6 +55,7 @@ const User = () => {
   };
   const handleClose = () => {
     setModelOpen(false);
+    setEdit(false);
     setNewUser({
       name: "",
       email: "",
@@ -97,7 +98,7 @@ const User = () => {
       .delete(`http://localhost:9000/User/DeleteUser/${id}`)
       .then((res) => {
         toast.success(res?.data?.message, { position: "bottom-center" });
-        getUserData()
+        getUserData();
       })
       .catch((err) => {
         toast.error(err?.response?.data?.message, {
@@ -120,7 +121,7 @@ const User = () => {
             type="button"
             className="btn btn-primary"
           >
-            Add User
+            Create User
           </button>
         </div>
         <div>
@@ -162,30 +163,32 @@ const User = () => {
           </tr>
         </thead>
         <tbody>
-          {userData?.length > 0 ? userData?.map((user, index) => (
-            <tr key={user?._id}>
-              <td>{index + 1}</td>
-              <td>{user?.name}</td>
-              <td>{user?.email}</td>
-              <td>{user?.address}</td>
-              <td className="actionButtons">
-                <button
-                  type="button"
-                  class="btn btn-info"
-                  onClick={() => handleUpdate(user?._id)}
-                >
-                  <i class="fa-solid fa-pen-to-square"></i>
-                </button>
-                <button
-                  type="button"
-                  class="btn btn-danger"
-                  onClick={() => handleDelete(user?._id)}
-                >
-                  <i class="fa-solid fa-trash"></i>
-                </button>
-              </td>
-            </tr>
-          )) : (
+          {userData?.length > 0 ? (
+            userData?.map((user, index) => (
+              <tr key={user?._id}>
+                <td>{index + 1}</td>
+                <td>{user?.name}</td>
+                <td>{user?.email}</td>
+                <td>{user?.address}</td>
+                <td className="actionButtons">
+                  <button
+                    type="button"
+                    class="btn btn-info"
+                    onClick={() => handleUpdate(user?._id)}
+                  >
+                    <i class="fa-solid fa-pen-to-square"></i>
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-danger"
+                    onClick={() => handleDelete(user?._id)}
+                  >
+                    <i class="fa-solid fa-trash"></i>
+                  </button>
+                </td>
+              </tr>
+            ))
+          ) : (
             <tr>
               <td colSpan="5" style={{ textAlign: "center" }}>
                 No Data Found
@@ -200,7 +203,7 @@ const User = () => {
             <span onClick={handleClose} className="close">
               <i class="fa-solid fa-xmark"></i>
             </span>
-            <h2>userRecord</h2>
+            <h2>{edit ? "Update User" : "Create User"}</h2>
             <form onSubmit={handleSubmit}>
               <div className="form-group">
                 <label for="name">Name:</label>
